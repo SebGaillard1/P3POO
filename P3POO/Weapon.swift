@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  Weapon.swift
 //  P3POO
 //
 //  Created by Sebastien Gaillard on 04/05/2021.
@@ -7,6 +7,7 @@
 
 import Foundation
 
-var game = Game()
-
-game.startGame()
+struct Weapon {
+    let name: String
+    let degats: Int
+}
