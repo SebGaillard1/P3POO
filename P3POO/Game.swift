@@ -58,31 +58,6 @@ class Game {
         }
     }
     
-    // Cette méthode renvoie un nom unique. (Elle est récursive tant que le nom saisi n'est pas unique)
-    func uniqueName() -> String {
-        
-        print("Saisissez nom personnage :")
-        
-        var userInputName = readLine() ?? ""
-        userInputName = userInputName.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if userInputName.isEmpty {
-            print("Nom vide, recommencez")
-            userInputName = uniqueName()
-        }
-        
-        if player1.characters.contains(where: { c in
-            c.name == userInputName
-        }) || player2.characters.contains(where: { c in
-            c.name == userInputName
-        }){
-            print("Le nom existe déjà, recommencez")
-            userInputName = uniqueName()
-        }
-        
-        return userInputName // On return le nom choisi par l'utilisateur s'il est unique
-    }
-    
     // Cette méthode informe que le combat commence et lance le 1er tour
     func startFight() {
         
@@ -112,24 +87,21 @@ class Game {
         }
     }
     
-    func printCharactersList(characters: [Character], status: String) {
+    func printCharactersList(characters: [Character], status: StatusType) {
         
         var index = 0 // Le chiffre qui s'affiche dans la console permettant le choix du personnage
         var info: String // Informations qu'on affiche au joueur
         var action: String // Action réalisé par la personnage, on le print
         
         switch status {
-        case "attacker":
+        case StatusType.attacker:
             action = "attaquer"
-        case "attacked":
+        case StatusType.attacked:
             action = "recevoir l'attaque"
-        case "healer":
+        case StatusType.healer:
             action = "soigner"
-        case "healed":
+        case StatusType.healed:
             action = "recevoir le soin"
-        default:
-            action = ""
-            
         }
         
         print("\nLe joueur \(currentPlayer) choisi le personnage qui va \(action) :")
@@ -141,16 +113,14 @@ class Game {
                 index += 1
                 
                 switch status {
-                case "attacker":
+                case StatusType.attacker:
                     info = "\(character.weapon.degats) dgts"
-                case "attacked":
+                case StatusType.attacked:
                     info = "\(character.life) pdv"
-                case "healer":
+                case StatusType.healer:
                     info = "\(character.heal) soin"
-                case "healed":
+                case StatusType.healed:
                     info = "\(character.life) pdv"
-                default:
-                    info = ""
                 }
                 
                 print("\(index) - \(character.type) : \(character.name), \(info)")
@@ -161,18 +131,18 @@ class Game {
     func chooseAttacker(player: Player) {
         
         let charactersAlive = getCharactersAlive(characters: player.characters)
-        printCharactersList(characters: charactersAlive, status: "attacker")
-        userSelectCharacterDoing(characters: charactersAlive, action: "attack")
+        printCharactersList(characters: charactersAlive, status: StatusType.attacker)
+        userSelectCharacterDoing(characters: charactersAlive, action: ActionType.attack)
     }
     
     func chooseHealer(player: Player) {
         
         let charactersAlive = getCharactersAlive(characters: player.characters)
-        printCharactersList(characters: charactersAlive, status: "healer")
-        userSelectCharacterDoing(characters: charactersAlive, action: "heal")
+        printCharactersList(characters: charactersAlive, status: StatusType.healer)
+        userSelectCharacterDoing(characters: charactersAlive, action: ActionType.heal)
     }
     
-    func userSelectCharacterDoing(characters: [Character], action: String) {
+    func userSelectCharacterDoing(characters: [Character], action: ActionType) {
         
         var enemy: Player
         var player: Player
@@ -210,21 +180,19 @@ class Game {
         }
     }
     
-    func chooseTargetAndAttackOrHeal(attacker: Character, player: Player, enemy: Player, action: String) {
+    func chooseTargetAndAttackOrHeal(attacker: Character, player: Player, enemy: Player, action: ActionType) {
         
-        if action == "attack" {
-            
-            printCharactersList(characters: enemy.characters, status: "attacked")
+        if action == ActionType.attack {
+            printCharactersList(characters: enemy.characters, status: StatusType.attacked)
             let target = selectTarget(characters: getCharactersAlive(characters: enemy.characters))
-            randomChest(characterAttacking: attacker)
+            tryRandomChest(characterAttacking: attacker)
             attacker.attack(target: target)
-            endOfTurn(charactersList: getCharactersAlive(characters: enemy.characters))
+            endOfTurn(charactersAliveList: getCharactersAlive(characters: enemy.characters))
         } else {
-            
-            printCharactersList(characters: player.characters, status: "healed")
+            printCharactersList(characters: player.characters, status: StatusType.healed)
             let target = selectTarget(characters: getCharactersAlive(characters: player.characters))
             target.heal(healer: attacker)
-            endOfTurn(charactersList: getCharactersAlive(characters: player.characters))
+            endOfTurn(charactersAliveList: getCharactersAlive(characters: player.characters))
         }
     }
     
@@ -259,10 +227,9 @@ class Game {
         }
     }
     
-    
-    func endOfTurn(charactersList: [Character]) {
+    func endOfTurn(charactersAliveList: [Character]) {
         
-        if charactersList.isEmpty {
+        if charactersAliveList.isEmpty {
             endGame()
         } else {
             currentPlayer = currentPlayer == 1 ? 2 : 1
@@ -290,38 +257,5 @@ class Game {
             print("\(character.type) : \(character.name), \(character.life) pdv")
         }
     }
-    
-    // Cette méthode renvoi le tableau des personnages encore en vie du joueur 1
-    func getCharactersAlive(characters: [Character]) -> [Character] {
-        return characters.filter { (c) -> Bool in
-            c.life > 0
-        }
-    }
-    
-    //MARK: - Partie coffre
-    
-    // Cette méthode fait apparaitre ou non un coffre et change l'arme du personnage
-    func randomChest(characterAttacking: Character) {
-        
-        let randomInt = Int.random(in: 0...99) // Génère un chiffre aléatoire entre 0 et 99
-        switch randomInt {
-        case 0..<5:
-            characterAttacking.weapon = Weapon(name: "Épée légendaire", degats: 50)
-            print("\nIncroyable, un coffre vient d'apparaître devant vous. Il contient une arme très rare : une épée légendaire !")
-        case 5..<15:
-            characterAttacking.weapon = Weapon(name: "Bâton magique", degats: 40)
-            print("\nSuperbe, un coffre vient d'apparaître devant vous. Il contient une arme rare, un bâton magique !")
-        case 15..<30:
-            characterAttacking.weapon = Weapon(name: "Marteau", degats: 30)
-            print("\nUn coffre vient d'apparaître devant vous, il contient un marteau !")
-        case 30..<35:
-            characterAttacking.weapon = Weapon(name: "Canne à pêche", degats: 10)
-            print("\nUn coffre vient d'apparaître devant vous mais son contenu risque de vous déplaire... Il contient une canne à pêche !")
-        default:
-            () // On ne fait rien
-        }
-    }
-    
-    
 }
 

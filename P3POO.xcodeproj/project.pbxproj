@@ -18,6 +18,10 @@
 		5753740F26416C5D00FFAAEF /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753740E26416C5D00FFAAEF /* Weapon.swift */; };
 		5753741126416C7800FFAAEF /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753741026416C7800FFAAEF /* Player.swift */; };
 		5753741526416E7600FFAAEF /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753741426416E7600FFAAEF /* Game.swift */; };
+		5753741826431DBD00FFAAEF /* CharacterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753741726431DBD00FFAAEF /* CharacterType.swift */; };
+		5753741A2643226000FFAAEF /* GameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575374192643226000FFAAEF /* GameExtension.swift */; };
+		5753741C2643237D00FFAAEF /* StatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753741B2643237D00FFAAEF /* StatusType.swift */; };
+		5753741E2643249B00FFAAEF /* ActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753741D2643249B00FFAAEF /* ActionType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +49,10 @@
 		5753740E26416C5D00FFAAEF /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		5753741026416C7800FFAAEF /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5753741426416E7600FFAAEF /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		5753741726431DBD00FFAAEF /* CharacterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterType.swift; sourceTree = "<group>"; };
+		575374192643226000FFAAEF /* GameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameExtension.swift; sourceTree = "<group>"; };
+		5753741B2643237D00FFAAEF /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
+		5753741D2643249B00FFAAEF /* ActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,11 +86,15 @@
 			isa = PBXGroup;
 			children = (
 				575373F926416BA200FFAAEF /* main.swift */,
+				5753741726431DBD00FFAAEF /* CharacterType.swift */,
 				5753740026416BB900FFAAEF /* Character.swift */,
 				5753740E26416C5D00FFAAEF /* Weapon.swift */,
 				5753741626417B7F00FFAAEF /* CharactersType */,
 				5753741026416C7800FFAAEF /* Player.swift */,
 				5753741426416E7600FFAAEF /* Game.swift */,
+				575374192643226000FFAAEF /* GameExtension.swift */,
+				5753741B2643237D00FFAAEF /* StatusType.swift */,
+				5753741D2643249B00FFAAEF /* ActionType.swift */,
 			);
 			path = P3POO;
 			sourceTree = "<group>";
@@ -157,17 +169,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5753741A2643226000FFAAEF /* GameExtension.swift in Sources */,
 				5753740926416BF200FFAAEF /* Ninja.swift in Sources */,
 				5753740B26416BFB00FFAAEF /* Skeleton.swift in Sources */,
 				5753740D26416C2E00FFAAEF /* Dragon.swift in Sources */,
 				5753740526416BD000FFAAEF /* Archer.swift in Sources */,
 				575373FA26416BA200FFAAEF /* main.swift in Sources */,
+				5753741826431DBD00FFAAEF /* CharacterType.swift in Sources */,
+				5753741E2643249B00FFAAEF /* ActionType.swift in Sources */,
 				5753740326416BC500FFAAEF /* Knight.swift in Sources */,
 				5753741126416C7800FFAAEF /* Player.swift in Sources */,
 				5753741526416E7600FFAAEF /* Game.swift in Sources */,
 				5753740726416BDA00FFAAEF /* Wizard.swift in Sources */,
 				5753740126416BB900FFAAEF /* Character.swift in Sources */,
 				5753740F26416C5D00FFAAEF /* Weapon.swift in Sources */,
+				5753741C2643237D00FFAAEF /* StatusType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

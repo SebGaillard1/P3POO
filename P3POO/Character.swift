@@ -12,10 +12,10 @@ class Character {
     var life: Int
     var name: String
     var weapon: Weapon
-    var type: Type
+    var type: CharacterType
     var heal: Int
     
-    init(life: Int, name: String, arme: Weapon, type: Type, heal: Int) {
+    init(life: Int, name: String, arme: Weapon, type: CharacterType, heal: Int) {
         
         self.life = life
         self.name = name
@@ -44,14 +44,4 @@ class Character {
         print("\(healer.name) soigne \(self.name) de \(healer.heal) pdv")
         print("\(self.name) a désormais \(self.life) pdv")
     }
-}
-
-enum Type {
-    
-    case Knight
-    case Archer
-    case Wizard
-    case Dragon
-    case Ninja
-    case Skeleton
 }
