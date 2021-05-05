@@ -252,7 +252,7 @@ class Game {
         for character in player1.characters {
             print("\(character.type) : \(character.name), \(character.life) pdv")
         }
-        print("/n")
+        print("\n")
         for character in player2.characters {
             print("\(character.type) : \(character.name), \(character.life) pdv")
         }
