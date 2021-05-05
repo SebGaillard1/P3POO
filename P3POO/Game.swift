@@ -112,11 +112,11 @@ class Game {
         }
     }
     
-    func printCharacters(characters: [Character], status: String) {
+    func printCharactersList(characters: [Character], status: String) {
         
         var index = 0 // Le chiffre qui s'affiche dans la console permettant le choix du personnage
-        var info: String
-        var action: String
+        var info: String // Informations qu'on affiche au joueur
+        var action: String // Action réalisé par la personnage, on le print
         
         switch status {
         case "attacker":
@@ -161,14 +161,14 @@ class Game {
     func chooseAttacker(player: Player) {
         
         let charactersAlive = getCharactersAlive(characters: player.characters)
-        printCharacters(characters: charactersAlive, status: "attacker")
+        printCharactersList(characters: charactersAlive, status: "attacker")
         userSelectCharacterDoing(characters: charactersAlive, action: "attack")
     }
     
     func chooseHealer(player: Player) {
         
         let charactersAlive = getCharactersAlive(characters: player.characters)
-        printCharacters(characters: charactersAlive, status: "healer")
+        printCharactersList(characters: charactersAlive, status: "healer")
         userSelectCharacterDoing(characters: charactersAlive, action: "heal")
     }
     
@@ -189,17 +189,17 @@ class Game {
         
         switch userInput {
         case "1":
-            chooseTarget(attacker: characters[0], player: player, enemy: enemy, action: action)
+            chooseTargetAndAttackOrHeal(attacker: characters[0], player: player, enemy: enemy, action: action)
         case "2":
             if characters.count > 1 {
-                chooseTarget(attacker: characters[1], player: player, enemy: enemy, action: action)
+                chooseTargetAndAttackOrHeal(attacker: characters[1], player: player, enemy: enemy, action: action)
             } else {
                 print("Saisie invalide, recommencez")
                 userSelectCharacterDoing(characters: characters, action: action)
             }
         case "3":
             if characters.count > 2 {
-                chooseTarget(attacker: characters[2], player: player, enemy: enemy, action: action)
+                chooseTargetAndAttackOrHeal(attacker: characters[2], player: player, enemy: enemy, action: action)
             } else {
                 print("Saisie invalide, recommencez")
                 userSelectCharacterDoing(characters: characters, action: action)
@@ -210,18 +210,18 @@ class Game {
         }
     }
     
-    func chooseTarget(attacker: Character, player: Player, enemy: Player, action: String) {
-        
+    func chooseTargetAndAttackOrHeal(attacker: Character, player: Player, enemy: Player, action: String) {
         
         if action == "attack" {
             
-            printCharacters(characters: enemy.characters, status: "attacked")
+            printCharactersList(characters: enemy.characters, status: "attacked")
             let target = selectTarget(characters: getCharactersAlive(characters: enemy.characters))
+            randomChest(characterAttacking: attacker)
             attacker.attack(target: target)
             endOfTurn(charactersList: getCharactersAlive(characters: enemy.characters))
         } else {
             
-            printCharacters(characters: player.characters, status: "healed")
+            printCharactersList(characters: player.characters, status: "healed")
             let target = selectTarget(characters: getCharactersAlive(characters: player.characters))
             target.heal(healer: attacker)
             endOfTurn(charactersList: getCharactersAlive(characters: player.characters))
@@ -280,10 +280,16 @@ class Game {
         print("\n\n---------------------------------------------")
         print("Fin de partie ! \nCompte rendu :")
         print("Le joueur \(currentPlayer) a gagné !")
-        print("\nLa partie c'est terminée en \(numberOfTurn) tours")
+        print("\nLa partie s'est terminée en \(numberOfTurn) tours")
         
-        
+        for character in player1.characters {
+            print("\(character.type) : \(character.name), \(character.life) pdv")
         }
+        print("/n")
+        for character in player2.characters {
+            print("\(character.type) : \(character.name), \(character.life) pdv")
+        }
+    }
     
     // Cette méthode renvoi le tableau des personnages encore en vie du joueur 1
     func getCharactersAlive(characters: [Character]) -> [Character] {
@@ -291,6 +297,31 @@ class Game {
             c.life > 0
         }
     }
+    
+    //MARK: - Partie coffre
+    
+    // Cette méthode fait apparaitre ou non un coffre et change l'arme du personnage
+    func randomChest(characterAttacking: Character) {
+        
+        let randomInt = Int.random(in: 0...99) // Génère un chiffre aléatoire entre 0 et 99
+        switch randomInt {
+        case 0..<5:
+            characterAttacking.weapon = Weapon(name: "Épée légendaire", degats: 50)
+            print("\nIncroyable, un coffre vient d'apparaître devant vous. Il contient une arme très rare : une épée légendaire !")
+        case 5..<15:
+            characterAttacking.weapon = Weapon(name: "Bâton magique", degats: 40)
+            print("\nSuperbe, un coffre vient d'apparaître devant vous. Il contient une arme rare, un bâton magique !")
+        case 15..<30:
+            characterAttacking.weapon = Weapon(name: "Marteau", degats: 30)
+            print("\nUn coffre vient d'apparaître devant vous, il contient un marteau !")
+        case 30..<35:
+            characterAttacking.weapon = Weapon(name: "Canne à pêche", degats: 10)
+            print("\nUn coffre vient d'apparaître devant vous mais son contenu risque de vous déplaire... Il contient une canne à pêche !")
+        default:
+            () // On ne fait rien
+        }
+    }
+    
     
 }
 
