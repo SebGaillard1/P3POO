@@ -21,6 +21,7 @@ class Game {
         createTeams()
     }
     
+    // Cette méthode permet la création des deux équipes
     func createTeams() {
         
         while player1.characters.count < 3 {
@@ -34,6 +35,7 @@ class Game {
         startFight()
     }
     
+    // Cette méthode rempli la tableau de personnages de chaque joueur
     func fillListOfCharacters(player: Player, currentPlayer: Int) {
         
         print("\nLe joueur \(currentPlayer) choisi son personnage \(player.characters.count + 1) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
@@ -87,6 +89,7 @@ class Game {
         }
     }
     
+    // Cette méthode affiche dans la console la liste des joueurs encore en vie avec des informations utiles au joueur
     func printCharactersList(characters: [Character], status: StatusType) {
         
         var index = 0 // Le chiffre qui s'affiche dans la console permettant le choix du personnage
@@ -128,6 +131,7 @@ class Game {
         }
     }
     
+    // Cette méthode récupère les joueurs encore en vie et les affiche. Elle appelle ensuite la méthode qui permet la selection d'un attaquant
     func chooseAttacker(player: Player) {
         
         let charactersAlive = getCharactersAlive(characters: player.characters)
@@ -135,6 +139,7 @@ class Game {
         userSelectCharacterDoing(characters: charactersAlive, action: ActionType.attack)
     }
     
+    // Même méthode que précedemment mais pour selectionner un healer
     func chooseHealer(player: Player) {
         
         let charactersAlive = getCharactersAlive(characters: player.characters)
@@ -142,6 +147,7 @@ class Game {
         userSelectCharacterDoing(characters: charactersAlive, action: ActionType.heal)
     }
     
+    // Permet la selection d'un attaquant ou soignant par le joueur
     func userSelectCharacterDoing(characters: [Character], action: ActionType) {
         
         var enemy: Player
@@ -180,6 +186,7 @@ class Game {
         }
     }
     
+    // Permet la selection d'une cible et réalise l'attaque ou le soin
     func chooseTargetAndAttackOrHeal(attacker: Character, player: Player, enemy: Player, action: ActionType) {
         
         if action == ActionType.attack {
@@ -196,6 +203,7 @@ class Game {
         }
     }
     
+    // Pemret de vérifier si l'utilisteur à saisie une cible valide
     func selectTarget(characters: [Character]) -> Character {
         
         var validUserInput = false
@@ -227,6 +235,7 @@ class Game {
         }
     }
     
+    // Méthode appelée en fin de tour, en fonction de l'état de la partie, on passe soit à la méthode fin de partie soit on relance un tour
     func endOfTurn(charactersAliveList: [Character]) {
         
         if charactersAliveList.isEmpty {
@@ -242,6 +251,7 @@ class Game {
         }
     }
     
+    // Cette méthode est appelée en fin de partie, elle affiche le compte rendu
     func endGame() {
         
         print("\n\n---------------------------------------------")

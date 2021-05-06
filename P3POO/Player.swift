@@ -9,5 +9,5 @@ import Foundation
 
 class Player {
     
-    var characters = [Character]()
+    var characters = [Character]() // Le tableau de personnage d'un joueur
 }
